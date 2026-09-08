@@ -36,7 +36,7 @@ published: true
 
 ![](./exclude.png)
 
-このブログサイトはvimキーバインドもどきに対応しているため、除外リストに追加しておくのがおすすめ。以下は私が除外しているサイト一覧。([一応設定ファイルもこちらに](https://gist.github.com/Uliboooo/3acde90b57dddfc7a6ba12abde41f6c1))
+このブログサイトはvimキーバインドもどきに対応しているため、除外リストに追加しておくのがおすすめ。以下は私が除外しているサイト一覧。([一応設定ファイルもこちらに](https://gist.github.com/senox78/3acde90b57dddfc7a6ba12abde41f6c1))
 
 ```shell
 :) jq '.exclusionRules[].pattern' Downloads/vimium-options.json

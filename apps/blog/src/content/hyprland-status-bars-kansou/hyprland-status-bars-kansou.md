@@ -26,7 +26,7 @@ hlはhyprlandの略です。
 - hl上でworkspacesがボタンクリックで移動できない[^1]
   :::
 
-[GitHub](https://github.com/alexays/waybar), [My waybar config👇](https://github.com/Uliboooo/dotfiles/tree/main/.config/waybar)
+[GitHub](https://github.com/alexays/waybar), [My waybar config👇](https://github.com/senox78/dotfiles/tree/main/.config/waybar)
 
 ![waybar](./waybar.png)
 

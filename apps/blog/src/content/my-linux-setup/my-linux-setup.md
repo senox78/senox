@@ -8,7 +8,7 @@ published: true
 
 ![my desktop](./imgs/desktop.png)
 
-dotfilesは[こちら(GitHub)](https://github.com/Uliboooo/dotfiles)。
+dotfilesは[こちら(GitHub)](https://github.com/senox78/dotfiles)。
 
 基本的にパクっていただいて結構ですが、fastfetchなどの設定はMITライセンスのもの(人の)を流用してるのでLICENSEの表記が必要なことがあります。
 
@@ -46,7 +46,7 @@ dotfiles
 
 ## エディタ: Neovim(lazy.nvim)
 
-[neovim config](https://github.com/Uliboooo/dotfiles/tree/main/.config/nvim)
+[neovim config](https://github.com/senox78/dotfiles/tree/main/.config/nvim)
 
 1年弱前くらいから始めた。理由はカッコいいから。普通に慣れれば楽でvimがないエディタが嫌いになるくらいには馴染んだ。ただ惰性で使っているのでマクロとかよくわからないし、未だにpluginを作れる気はしない。
 
@@ -71,7 +71,7 @@ vscode -> nvim -> helix -> nvimといった感じで、一瞬helixを使って�
 
 ## Window Manager: Hyprland
 
-[hyprland config](https://github.com/Uliboooo/dotfiles/tree/main/.config/hypr)
+[hyprland config](https://github.com/senox78/dotfiles/tree/main/.config/hypr)
 
 みんな大好きなHyprlandです。選定理由としては
 
@@ -131,7 +131,7 @@ waylandの壁紙を制御するツールは多いですが私はなんとなく�
 
 使い方はごくシンプルで`awww-daemon`を起動した後に、`awww img <path/to/img>`で壁紙が適用されます。しかし`awww`にはディレクトリから写真を選ぶとか、スライドショー的な機能はなく前まではbash scriptでどうにかしていました。
 
-ただスライド用のディレクトリの切り替えなどの機能が欲しくなって来て、bashで書くのが限界になったため、Rustで同様のツールを書き直しました。[wlmstr](https://github.com/Uliboooo/wlmstr)
+ただスライド用のディレクトリの切り替えなどの機能が欲しくなって来て、bashで書くのが限界になったため、Rustで同様のツールを書き直しました。[wlmstr](https://github.com/senox78/wlmstr)
 
 やってることはごく単純で、現在のフォルダパス、現在の背景画像パスを`XDG_DATA_HOME/wlmstr/data.json`に保持して、適切な`awww`を実行するというラッパーです。それを`systemd --user`で定期的に実行することで自動スライドショーにしてます。
 

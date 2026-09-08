@@ -15,7 +15,7 @@ published: true
 
 私のhyprlandとniriの設定👇。基本的に下記のハッシュ時点の設定の話。
 
-[Hyprland: 77cdb74](https://github.com/Uliboooo/dotfiles/tree/beef43bedab85c4ce457cd61fea7b44febc9a0ee/.config/hypr), [Niri: beef43b](https://github.com/Uliboooo/dotfiles/tree/beef43bedab85c4ce457cd61fea7b44febc9a0ee/.config/niri)
+[Hyprland: 77cdb74](https://github.com/senox78/dotfiles/tree/beef43bedab85c4ce457cd61fea7b44febc9a0ee/.config/hypr), [Niri: beef43b](https://github.com/senox78/dotfiles/tree/beef43bedab85c4ce457cd61fea7b44febc9a0ee/.config/niri)
 
 ```bash
 :) hyprland --version

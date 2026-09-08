@@ -92,6 +92,6 @@ bind = $mainMod CTRL, W, exec, ~/dotfiles/script/cycle_wallpaper.sh "pse"
 
 ## ソースコード
 
-https://github.com/Uliboooo/dotfiles/blob/main/script/cycle_wallpaper.sh
-https://github.com/Uliboooo/dotfiles/blob/main/.config/systemd/user/cycle_wallpaper.service
-https://github.com/Uliboooo/dotfiles/blob/main/.config/systemd/user/cycle_wallpaper.timer
+https://github.com/senox78/dotfiles/blob/main/script/cycle_wallpaper.sh
+https://github.com/senox78/dotfiles/blob/main/.config/systemd/user/cycle_wallpaper.service
+https://github.com/senox78/dotfiles/blob/main/.config/systemd/user/cycle_wallpaper.timer

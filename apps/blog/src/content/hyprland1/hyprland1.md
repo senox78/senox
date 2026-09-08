@@ -78,7 +78,7 @@ https://zenn.dev/uliboooo/articles/c4264b097f1abf
 
 スクリプトとか設定とか全部あるrepo。
 
-https://github.com/Uliboooo/dotfiles
+https://github.com/senox78/dotfiles
 
 ## 設定を書きたくないならGNOMEへどうぞ
 

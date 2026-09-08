@@ -10,7 +10,7 @@ published: true
 
 typstでスライド(PDF)を作成するための個人的最小の知識メモです。備忘録。
 
-Draftも多く申し訳ないけれど一応例として[dotfilesについて - github](https://github.com/Uliboooo/slides/tree/main/linux_conf_2)を共有します。
+Draftも多く申し訳ないけれど一応例として[dotfilesについて - github](https://github.com/senox78/slides/tree/main/linux_conf_2)を共有します。
 
 ## What is Typst?
 

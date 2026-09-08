@@ -11,7 +11,7 @@ published: true
 
 ---
 
-## [せの (senox78)](https://github.com/Uliboooo)
+## [せの (senox78)](https://github.com/senox78)
 
 <a href="../seli-ni-tsuite" class="link--underline link--external" target="_blank" rel="noopener noreferrer">瀬梨(Seli)についてはこちら</a>
 
@@ -51,17 +51,17 @@ published: true
 
 はGithubにあるrepo検索結果。
 
-[Rust](https://github.com/Uliboooo?tab=repositories&q=&type=public&language=rust&sort=),
-[Shell](https://github.com/Uliboooo?tab=repositories&q=&type=public&language=shell&sort=),
-[CLI Development](https://github.com/Uliboooo?tab=repositories&q=cli&type=public&language=&sort=),
-[Lib Development](https://github.com/Uliboooo?tab=repositories&q=lib&type=public&language=&sort=),
-[Web](https://github.com/Uliboooo?tab=repositories&q=website&type=&language=&sort=)
+[Rust](https://github.com/senox78?tab=repositories&q=&type=public&language=rust&sort=),
+[Shell](https://github.com/senox78?tab=repositories&q=&type=public&language=shell&sort=),
+[CLI Development](https://github.com/senox78?tab=repositories&q=cli&type=public&language=&sort=),
+[Lib Development](https://github.com/senox78?tab=repositories&q=lib&type=public&language=&sort=),
+[Web](https://github.com/senox78?tab=repositories&q=website&type=&language=&sort=)
 
 webは苦手ですが最近ちょっとだけ手を出しています。Astro大好き。あとは文書の記述や管理にも興味はある(図書館学? アーカイブス学?)
 
 ## SNS/Contact
 
-[GitHub](https://github.com/Uliboooo),
+[GitHub](https://github.com/senox78),
 [Twitter](https://x.com/senox78),
 [Instagram](https://www.instagram.com/uliboooo)
 [マシュマロ](https://marshmallow-qa.com/db8xew1t5oa5l19),
@@ -104,7 +104,7 @@ webは苦手ですが最近ちょっとだけ手を出しています。Astro大
 
 https://x.com/senox78/status/2084895400067313751
 
-[more info](https://github.com/Uliboooo/dotfiles)
+[more info](https://github.com/senox78/dotfiles)
 
 ## Links
 

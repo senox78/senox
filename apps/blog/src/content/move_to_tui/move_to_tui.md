@@ -8,7 +8,7 @@ published: true
 
 従来はGUIでやっていた作業をもっとTUIでやってみようという話です。役立ちそうなTUIたちを紹介します。
 
-あと、[わたしのdotfiles](https://github.com/Uliboooo/dotfiles)にNixOSの設定まであるので、たぶんこれをまんまパクればそのまま記事中のTUIや設定は動くと思われます。(Nix初心者すぎて分からない)
+あと、[わたしのdotfiles](https://github.com/senox78/dotfiles)にNixOSの設定まであるので、たぶんこれをまんまパクればそのまま記事中のTUIや設定は動くと思われます。(Nix初心者すぎて分からない)
 ただかなり個人に寄せたHyprlandなどの設定なのでちょいちょい設定などをパクるくらいがいいかも。
 
 ## File Manager: Yazi
@@ -81,7 +81,7 @@ use = false
 
 言わずと知れたVim, Neovim。ターミナル上で動作するエディター。ここで説明するには長くなりすぎるのでほかに譲りますが、とても便利なのでぜひ試してもらいたい。
 
-一応私のneovimの設定ファイルたちも置いておきます。割とシンプルにしてます。[dotfiles-neovim](https://github.com/Uliboooo/dotfiles/tree/main/.config/nvim)
+一応私のneovimの設定ファイルたちも置いておきます。割とシンプルにしてます。[dotfiles-neovim](https://github.com/senox78/dotfiles/tree/main/.config/nvim)
 
 ![](../shall_we_vim/nvim.png)
 
