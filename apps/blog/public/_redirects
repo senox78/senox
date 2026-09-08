@@ -1,4 +1,6 @@
 / /blog/me/ 302
+/me /blog/me/ 301
+/me/ /blog/me/ 301
 /blog/about_me /blog/me/ 301
 /blog/about_me/ /blog/me/ 301
 /blog/md/about_me /blog/md/me 301
