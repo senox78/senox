@@ -11,7 +11,7 @@
     "build": "astro build && bun src/dev_tools/prepare_deploy.ts",
     "typecheck": "tsc --noEmit",
     "preview": "astro preview",
-    "cf-dev": "wrangler pages dev ../../dist",
+    "cf-dev": "cd ../.. && wrangler pages dev dist",
     "astro": "astro",
     "open-article": "bun src/dev_tools/open_article.ts",
     "tags": "bun src/dev_tools/check_tags.ts",
