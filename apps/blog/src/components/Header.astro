@@ -1,0 +1,223 @@
+---
+// src/components/Header.astro
+import { blogPath } from "../utils/paths";
+
+const navItems = [
+  { href: "https://about.uliboooo.dev/uliboooo/", label: "About Me" },
+  { href: blogPath(), label: "Blog" },
+];
+---
+
+<header>
+  <div class="head_contents">
+    <div class="left_head">
+      <div class="head-icon">
+        <a href={blogPath()} class="link--underline title-link">
+          <p id="title_p">Compute on Snails</p>
+        </a>
+      </div>
+    </div>
+    <div class="right_content">
+      <ul>
+        {
+          navItems.map((item) => (
+            <li class="head-item">
+              <a
+                href={item.href}
+                class:list={[
+                  "link--underline",
+                  { "link--external": item.href.startsWith("http") },
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <ul id="sns_links">
+        <li>
+          <button
+            id="theme-toggle"
+            aria-label="テーマ切り替え"
+            class="theme-btn"
+          >
+            🌙
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<style>
+  header {
+    border-bottom: 1px solid var(--border-strong);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 1.1rem;
+  }
+
+  .head_contents {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .head-item a {
+      font-size: 1rem;
+    }
+
+    .left_head {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      #title_p {
+        font-size: 1.4rem;
+        margin: 0;
+        font-family: var(--base-fonts-sans);
+        font-weight: bold;
+      }
+
+      ul {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding-left: 0;
+      }
+    }
+
+    .right_content {
+      display: flex;
+      flex-wrap: wrap;
+      justify-self: center;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .right_content ul {
+      display: flex;
+      flex-wrap: wrap;
+      list-style: none;
+      gap: 0.6rem;
+      align-items: center;
+      padding-left: 10px;
+    }
+  }
+
+  #sns_links {
+    font-size: 1rem;
+  }
+
+  #theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #theme-toggle svg {
+    display: block;
+  }
+
+  .link--underline,
+  .link--underline:visited {
+    color: var(--text);
+  }
+
+  .title-link,
+  .title-link:visited {
+    color: var(--header-title-color);
+  }
+
+  .theme-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0.25rem;
+  }
+
+  @media (max-width: 640px) {
+    header {
+      font-size: 90%;
+    }
+    .head_contents {
+      justify-content: center;
+      gap: 10px;
+      ul {
+        margin-top: 0px;
+        margin-bottom: 0px;
+      }
+    }
+  }
+</style>
+
+<script>
+  const ICONS = {
+    moon: `<svg xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 44 44"
+    fill="none"
+    stroke="#1993FF"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    style="transform: translateY(1px);"
+    aria-hidden="true">
+    <!-- outer moon -->
+    <path d="M28 6
+      C18 7, 11 15, 11 24
+      C11 33, 18 39, 27 39
+      C33 39, 38 36, 41 31
+      C35 32, 29 30, 24 25
+      C19 20, 17 13, 18 7
+      C21 6, 24 5.5, 28 6Z"/>
+  </svg>`,
+
+    sun: `<svg xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 44 44"
+    fill="none"
+    stroke="#F59E0B"
+    stroke-width="1.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    style="transform: translateY(1px);"
+    aria-hidden="true">
+    <circle cx="22" cy="22" r="7"/>
+    <line x1="22" y1="3"  x2="22" y2="8"/>
+    <line x1="22" y1="36" x2="22" y2="41"/>
+    <line x1="3"  y1="22" x2="8"  y2="22"/>
+    <line x1="36" y1="22" x2="41" y2="22"/>
+    <line x1="8"  y1="8"  x2="11.5" y2="11.5"/>
+    <line x1="32.5" y1="32.5" x2="36" y2="36"/>
+    <line x1="36" y1="8"  x2="32.5" y2="11.5"/>
+    <line x1="11.5" y1="32.5" x2="8"  y2="36"/>
+  </svg>`,
+  };
+
+  const button = document.getElementById("theme-toggle");
+
+  const updateButton = () => {
+    const isDark = document.documentElement.classList.contains("dark");
+    if (button) button.innerHTML = isDark ? ICONS.sun : ICONS.moon;
+  };
+
+  button?.addEventListener("click", () => {
+    const isDark = document.documentElement.classList.contains("dark");
+    if (isDark) {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+    updateButton();
+  });
+
+  updateButton();
+</script>

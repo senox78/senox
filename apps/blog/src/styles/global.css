@@ -1,0 +1,333 @@
+/* global.css — 全ページ共通(MainLayout.astroからimport)。
+   テーマ変数はここの:root / :root.darkに集約する。
+   記事ページ固有のスタイルはpost.cssへ。 */
+
+/* ── fonts ────────────────────────────────────────── */
+
+@font-face {
+  font-family: "Annotation Mono";
+  src: url("/blog/fonts/annotation_mono/AnnotationMono-VF.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Monaspace Radon";
+  src: url("/blog/fonts/monospace/Monaspace_Radon/MonaspaceRadonNF-SemiWideRegular.woff2")
+    format("woff2");
+  font-display: swap;
+  /* font-weight: 100 900; */
+  /* font-style: normal; */
+}
+
+/* ── theme variables ──────────────────────────────── */
+
+/* Default (light) theme: Uncoated Paper
+   https://gist.github.com/Uliboooo/93be316ea170ad4a9f66a487a117c517
+   紙面は透けない: opaque, no gloss. */
+:root {
+  --background: #f8f7f2;
+  --text: #2d302b;
+  --heading-color: #2d302b;
+  --a-link: #b85773;
+  --a-link-in-post: #b85773;
+  --a-link-in-post-hovered: #d38ca0;
+  --a-under-in-post-hovered: #d38ca0;
+  --visited-link: #77766d;
+  --heading-prefix: #77766d;
+  --blockquote-border: #b7b0a2;
+  --link-color: #2d302b;
+  --line-color: #d0c9bb;
+  --table-bg: #fbf9f2;
+  --table-text: #2d302b;
+  --table-border: #d0c9bb;
+  --table-header-bg: #ead2d9;
+  --table-stripe-bg: #f6f2e9;
+  --table-hover-bg: #ead2d9;
+
+  /* 両テーマ共通(darkでの上書きなし) */
+  --accent: #da70d6;
+  --border-strong: #545454;
+  --code-bg: #24292e;
+  --code-fg: #f8f8f2;
+
+  --text-muted: #666;
+  --tag-text: #333;
+  --callout-message-border: #eab308;
+  --callout-message-bg: rgba(234, 179, 8, 0.05);
+  --callout-alert-border: #ef4444;
+  --callout-alert-bg: rgba(239, 68, 68, 0.05);
+  /* pros/consマーカー: lightは本文色のまま */
+  --pros-color: currentColor;
+  --cons-color: currentColor;
+  --floating-btn-shadow: rgba(0, 0, 0, 0.15);
+
+  --base-fonts-sans:
+    "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Roboto", "Noto Sans JP", "Monaspace Radon", sans;
+  --base-fonts-mono:
+    "Monaspace Radon", "Annotation Mono", "Fira Code", Consolas,
+    "Liberation Mono", Menlo, monospace;
+  --header-title-color: #77766d;
+}
+
+:root.dark {
+  --background: #1a1a1a;
+  --text: #f7f2f2;
+  --heading-color: #f7f2f2;
+  --a-link: #8ab4f8;
+  --a-link-in-post: #9cc0fa;
+  --a-link-in-post-hovered: #ffb3ff;
+  --a-under-in-post-hovered: #ffb3ff;
+  --visited-link: #c58af9;
+  --heading-prefix: #999;
+  --blockquote-border: #999;
+  --link-color: #e3e3e3;
+  --line-color: #3a3a3a;
+  --table-bg: #1e1e1e;
+  --table-text: #e0e0e0;
+  --table-border: #444444;
+  --table-header-bg: #2d2d2d;
+  --table-stripe-bg: #252525;
+  --table-hover-bg: #3d3d3d;
+
+  --text-muted: #b0b0b0;
+  --tag-text: #d1d1d1;
+  --callout-message-border: #facc15;
+  --callout-message-bg: rgba(234, 179, 8, 0.1);
+  --callout-alert-border: #f87171;
+  --callout-alert-bg: rgba(239, 68, 68, 0.1);
+  --pros-color: #4ade80;
+  --cons-color: #f87171;
+  --floating-btn-shadow: rgba(0, 0, 0, 0.4);
+
+  --base-fonts-mono:
+    "Annotation Mono", "Fira Code", Consolas, "Liberation Mono", Menlo,
+    monospace;
+  --header-title-color: #b8b8b8;
+}
+
+/* ── reset / base layout ──────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  /* iOS Safari が小さめの文字を勝手に拡大するのを止める */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--base-fonts-sans);
+  background-color: var(--background);
+  color: var(--text);
+  transition: background-color 0.3s ease;
+
+  width: 70%;
+  max-width: 750px;
+  margin: 0 auto;
+  box-sizing: border-box;
+
+  p {
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 1.5em;
+    font-family: var(--base-fonts-sans);
+  }
+}
+
+@media (max-width: 900px) {
+  body {
+    width: 92%;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    width: 100%;
+    min-width: 0;
+
+    margin: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+
+    /* font-size: 80%; */
+  }
+}
+
+/* ── links ────────────────────────────────────────── */
+
+a:link {
+  color: var(--a-link);
+}
+
+a:visited {
+  color: var(--visited-link);
+}
+
+.link--underline,
+.link--underline:visited {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1.5px;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  transition:
+    background-size 0.3s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
+}
+
+.link--underline:hover {
+  background-size: 100% 1.5px;
+  color: var(--a-link-in-post-hovered);
+  background-image: linear-gradient(
+    var(--a-under-in-post-hovered),
+    var(--a-under-in-post-hovered)
+  );
+  opacity: 0.7;
+}
+
+.link--external::after {
+  content: "";
+  display: inline-block;
+  width: 0.9em;
+  height: 0.9em;
+  margin-left: 0;
+
+  background-color: currentColor;
+
+  -webkit-mask-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"%3E%3Cline x1="7" y1="17" x2="17" y2="7"%3E%3C/line%3E%3Cpolyline points="7 7 17 7 17 17"%3E%3C/polyline%3E%3C/svg%3E');
+  mask-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"%3E%3Cline x1="7" y1="17" x2="17" y2="7"%3E%3C/line%3E%3Cpolyline points="7 7 17 7 17 17"%3E%3C/polyline%3E%3C/svg%3E');
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  transition: transform 0.2s ease;
+}
+
+.link--external:hover::after {
+  transform: translate(1px, -1px);
+}
+
+/* アクセント色のグラデーション下線(記事一覧タイトル・404のHomeリンクで使用)。
+   a:link / a:visited に勝つよう要素名付きで指定(同ファイル内で後勝ち) */
+a.link--underline-accent,
+a.link--underline-accent:visited {
+  color: var(--link-color);
+  text-decoration: none;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0 1px;
+  transition: background-size 0.3s ease-in-out;
+  padding-bottom: 1px;
+}
+
+a.link--underline-accent:hover {
+  color: var(--accent);
+  background-size: 100% 1.5px;
+}
+
+/* タグ(トップの記事一覧と記事メタで共通) */
+.tags {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tag {
+  display: inline-block;
+  color: var(--tag-text);
+}
+
+.tag::before {
+  content: "#";
+  color: var(--text-muted);
+  margin-right: 0.15rem;
+}
+
+/* ── table ────────────────────────────────────────── */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--table-bg);
+  color: var(--table-text);
+}
+
+th,
+td {
+  border: 1px solid var(--table-border);
+  padding: 12px;
+}
+
+th {
+  background-color: var(--table-header-bg);
+}
+
+tr:nth-child(even) {
+  background-color: var(--table-stripe-bg);
+}
+
+tr:hover {
+  background-color: var(--table-hover-bg);
+}
+
+/* ── footnotes (#footnote[...] via remark-typst) ──── */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+section.footnotes {
+  margin-top: 3em;
+  border-top: 1px solid var(--line-color);
+  color: var(--heading-prefix);
+}
+
+section.footnotes p {
+  font-size: 13px;
+  margin-bottom: 0.5em;
+}
+
+[data-footnote-ref] {
+  text-decoration: none;
+  padding: 0 2px;
+}
+
+.data-footnote-backref {
+  text-decoration: none;
+}
+
+.footnote-backref-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+}

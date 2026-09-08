@@ -1,0 +1,10 @@
+/ /blog/me/ 302
+/blog/about_me /blog/me/ 301
+/blog/about_me/ /blog/me/ 301
+/blog/md/about_me /blog/md/me 301
+/blog/md/about_me.md /blog/md/me.md 301
+/blog/html/about_me /blog/html/me 301
+/blog/html/about_me.html /blog/html/me.html 301
+/blog/og/about_me.png /blog/og/me.png 301
+/blog/md/:slug/ /blog/md/:slug 301
+/blog/html/:slug/ /blog/html/:slug 301

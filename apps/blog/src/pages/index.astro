@@ -1,0 +1,583 @@
+---
+// src/pages/index.astro
+import { getCollection } from "astro:content";
+import MainLayout from "../layouts/MainLayout.astro";
+import externalJson from "../data/external.json";
+import { blogPath } from "../utils/paths";
+
+const postsP = getCollection("blog");
+
+const external = externalJson as ExternalPost[];
+
+type ExternalPost = {
+  id: string;
+  title: string;
+  date: string;
+  url: string;
+  description?: string;
+  tags: string[];
+  published: boolean;
+};
+
+type BlogItem = {
+  id: string;
+  data: {
+    title: string;
+    date: Date;
+    description?: string;
+    tags?: string[];
+    published?: boolean;
+    url?: string;
+  };
+};
+
+const externalPosts: BlogItem[] = external.map((item) => ({
+  id: item.url,
+  data: {
+    title: item.title,
+    date: new Date(item.date),
+    description: item.description?.trim() || undefined,
+    tags: item.tags,
+    published: true,
+    url: item.url,
+  },
+}));
+
+const posts = await postsP;
+const astroPosts: BlogItem[] = posts.map((post) => ({
+  id: post.id,
+  data: {
+    title: post.data.title,
+    date: post.data.date,
+    description: post.data.description?.trim() || undefined,
+    tags: post.data.tags,
+    published: post.data.published,
+    url: blogPath(`/${post.id.split("/")[0]}/`),
+  },
+}));
+
+const sorted = [...astroPosts, ...externalPosts]
+  .filter((post) => post.data.published !== false)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const dateFormatter = new Intl.DateTimeFormat("ja-JP", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+---
+
+<MainLayout
+  title="Compute on Snails"
+  description="Compute on Snails"
+  ogImage={blogPath("/og/index.png")}
+>
+  <form
+    class="article-search"
+    action={blogPath("/search/")}
+    method="get"
+    role="search"
+  >
+    <label class="sr-only" for="article-search-query">
+      Search article text and URLs with a regular expression
+    </label>
+    <div class="article-search-field">
+      <svg
+        class="article-search-icon"
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <circle cx="11" cy="11" r="6.5"></circle>
+        <path d="m16 16 4.25 4.25"></path>
+      </svg>
+      <input
+        id="article-search-query"
+        name="q"
+        type="search"
+        inputmode="search"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="Search articles…"
+      />
+      <kbd aria-hidden="true">/</kbd>
+    </div>
+    <p
+      id="article-search-status"
+      class="article-search-status"
+      role="status"
+      aria-live="polite"
+    >
+    </p>
+  </form>
+  <section id="article-index">
+    <h2>Articles</h2>
+    <ul class="article-list">
+      {
+        sorted.map((post) => (
+          <li class="article-item" data-article-url={post.data.url}>
+            <a
+              href={post.data.url}
+              class="article-title link--underline-accent"
+            >
+              {post.data.title}
+            </a>
+
+            {post.data.description && (
+              <p class="article-description">{post.data.description}</p>
+            )}
+
+            <div class="article-meta">
+              {post.data.tags?.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+
+              <time>{dateFormatter.format(post.data.date)}</time>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+  <section id="live-search" hidden>
+    <h2>Search results</h2>
+    <div id="live-search-results"></div>
+  </section>
+</MainLayout>
+
+<script>
+  import { blogPath } from "../utils/paths";
+
+  const articleSearch = document.getElementById(
+    "article-search-query",
+  ) as HTMLInputElement | null;
+  const searchStatus = document.getElementById("article-search-status");
+  const articleIndex = document.getElementById("article-index");
+  const liveSearch = document.getElementById("live-search");
+  const liveSearchResults = document.getElementById("live-search-results");
+  const articleItems = Array.from(
+    document.querySelectorAll<HTMLElement>(".article-item"),
+  );
+
+  type SearchArticle = {
+    title: string;
+    url: string;
+    lines: Array<{ text: string; anchor?: string }>;
+  };
+
+  let searchIndex: Promise<SearchArticle[]> | undefined;
+
+  function loadSearchIndex() {
+    searchIndex ??= fetch(blogPath("/grep-index.json"))
+      .then((response) => {
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        return response.json();
+      })
+      .then((data: { articles: SearchArticle[] }) => data.articles);
+    return searchIndex;
+  }
+
+  function showAllArticles() {
+    if (articleIndex) articleIndex.hidden = false;
+    if (liveSearch) liveSearch.hidden = true;
+    liveSearchResults?.replaceChildren();
+    if (searchStatus) searchStatus.textContent = "";
+  }
+
+  function appendHighlighted(
+    target: HTMLElement,
+    text: string,
+    expression: RegExp,
+  ) {
+    const highlighted = new RegExp(expression.source, `${expression.flags}g`);
+    let cursor = 0;
+    for (const match of text.matchAll(highlighted)) {
+      const start = match.index;
+      const value = match[0];
+      target.append(text.slice(cursor, start));
+      const mark = document.createElement("mark");
+      mark.textContent = value;
+      target.append(mark);
+      cursor = start + value.length;
+      if (!value) break;
+    }
+    target.append(text.slice(cursor));
+  }
+
+  function renderResult(
+    article: SearchArticle,
+    expression: RegExp,
+    urlMatches: boolean,
+    matchedLines: SearchArticle["lines"],
+  ) {
+    const result = document.createElement("article");
+    result.className = "live-result";
+
+    const title = document.createElement("h3");
+    const titleLink = document.createElement("a");
+    titleLink.href = article.url;
+    titleLink.textContent = article.title;
+    title.append(titleLink);
+    result.append(title);
+
+    if (urlMatches) {
+      const urlLink = document.createElement("a");
+      urlLink.className = "live-result-url";
+      urlLink.href = article.url;
+      const fullUrl = new URL(article.url, location.origin).href;
+      appendHighlighted(urlLink, fullUrl, expression);
+      result.append(urlLink);
+    }
+
+    if (matchedLines.length) {
+      const lines = document.createElement("ul");
+      lines.className = "live-result-lines";
+      for (const line of matchedLines.slice(0, 3)) {
+        const item = document.createElement("li");
+        const link = document.createElement("a");
+        link.href = `${article.url}${line.anchor ? `#${line.anchor}` : ""}`;
+        appendHighlighted(link, line.text, expression);
+        item.append(link);
+        lines.append(item);
+      }
+      result.append(lines);
+
+      if (matchedLines.length > 3) {
+        const more = document.createElement("p");
+        more.className = "live-result-more";
+        more.textContent = `+${matchedLines.length - 3} more matching lines`;
+        result.append(more);
+      }
+    }
+
+    return result;
+  }
+
+  async function filterArticles() {
+    const query = articleSearch?.value.trim() ?? "";
+    if (!query) {
+      showAllArticles();
+      return;
+    }
+
+    if (articleIndex) articleIndex.hidden = true;
+    if (liveSearch) liveSearch.hidden = false;
+    liveSearchResults?.replaceChildren();
+
+    let expression: RegExp;
+    try {
+      expression = new RegExp(query, "iu");
+    } catch (error) {
+      if (searchStatus) {
+        searchStatus.textContent = `Invalid regular expression: ${(error as Error).message}`;
+      }
+      return;
+    }
+
+    if (searchStatus) searchStatus.textContent = "Searching…";
+
+    try {
+      const articles = await loadSearchIndex();
+      if (query !== articleSearch?.value.trim()) return;
+
+      const articlesByUrl = new Map(
+        articles.map((article) => [article.url, article]),
+      );
+      let resultCount = 0;
+      for (const item of articleItems) {
+        const article = articlesByUrl.get(item.dataset.articleUrl ?? "");
+        if (!article) continue;
+
+        const fullUrl = new URL(article.url, location.origin).href;
+        const urlMatches =
+          expression.test(article.url) || expression.test(fullUrl);
+        const titleMatches = expression.test(article.title);
+        const matchedLines = article.lines.filter((line) =>
+          expression.test(line.text),
+        );
+        if (!urlMatches && !titleMatches && !matchedLines.length) continue;
+
+        liveSearchResults?.append(
+          renderResult(article, expression, urlMatches, matchedLines),
+        );
+        resultCount += 1;
+      }
+
+      if (searchStatus) {
+        searchStatus.textContent = `${resultCount} article${resultCount === 1 ? "" : "s"} found`;
+      }
+    } catch {
+      if (searchStatus) {
+        searchStatus.textContent = "Could not load the search index.";
+      }
+    }
+  }
+
+  let searchTimer: ReturnType<typeof setTimeout>;
+  articleSearch?.addEventListener("input", () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => void filterArticles(), 200);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "/" || event.metaKey || event.ctrlKey || event.altKey) {
+      return;
+    }
+
+    const target = event.target;
+    if (
+      target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement ||
+      (target instanceof HTMLElement && target.isContentEditable)
+    ) {
+      return;
+    }
+
+    event.preventDefault();
+    articleSearch?.focus();
+  });
+</script>
+
+<style>
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  .article-search {
+    margin: 2rem 0 2.25rem;
+  }
+
+  .article-search-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--line-color);
+    border-radius: 12px;
+    background: var(--table-bg);
+    transition: border-color 0.2s ease;
+  }
+
+  .article-search-field:hover {
+    border-color: var(--text-muted);
+  }
+
+  .article-search-field:focus-within {
+    border-color: var(--accent);
+  }
+
+  .article-search-icon {
+    position: absolute;
+    left: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--text-muted);
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    pointer-events: none;
+  }
+
+  .article-search input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    border-radius: inherit;
+    padding: 0.9rem 5.25rem 0.9rem 3rem;
+    background: transparent;
+    color: var(--text);
+    font: 500 1rem var(--base-fonts-mono);
+  }
+
+  .article-search input:focus-visible {
+    outline: none;
+  }
+
+  .article-search input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.85;
+  }
+
+  .article-search kbd {
+    position: absolute;
+    right: 0.75rem;
+    border: 1px solid var(--line-color);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    padding: 0.15rem 0.4rem;
+    background: var(--table-stripe-bg);
+    color: var(--text-muted);
+    font: 0.72rem var(--base-fonts-mono);
+    pointer-events: none;
+  }
+
+  .article-search-status {
+    margin: 0.45rem 0.25rem 0;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .article-search-status:empty {
+    display: none;
+  }
+
+  .article-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--line-color);
+  }
+
+  .article-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "title meta"
+      "description meta";
+    column-gap: 1rem;
+    padding: 0.9rem 0.25rem;
+    border-bottom: 1px solid var(--line-color);
+  }
+
+  /* 下線まわりはglobal.cssの.link--underline-accentを使用 */
+  .article-title {
+    grid-area: title;
+    justify-self: start;
+    min-width: 0;
+    max-width: 100%;
+    font-size: 1.08rem;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .article-title:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .article-description {
+    grid-area: description;
+    margin: 0.2rem 0 0;
+    font-size: 0.86rem;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--text-muted);
+  }
+
+  .article-meta {
+    grid-area: meta;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    align-self: center;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  time {
+    min-width: 5.5rem;
+    margin-left: 0.4rem;
+    color: var(--text-muted);
+    font-size: inherit;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  /* 共通部分はglobal.cssの.tags / .tagを使用 */
+  .tags {
+    margin-left: 0.5rem;
+  }
+
+  .tag {
+    font-size: inherit;
+    font-weight: 500;
+    margin-left: 0.4rem;
+  }
+
+  @media (max-width: 640px) {
+    .article-item {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+        "title"
+        "description"
+        "meta";
+      padding: 0.8rem 0;
+    }
+
+    .article-meta {
+      justify-content: flex-start;
+      width: 100%;
+      margin-top: 0.3rem;
+    }
+
+    time {
+      margin-left: auto;
+    }
+  }
+</style>
+
+<style is:global>
+  #live-search-results {
+    border-top: 1px solid var(--line-color);
+  }
+
+  #live-search-results .live-result {
+    padding: 0.9rem 0.25rem;
+    border-bottom: 1px solid var(--line-color);
+  }
+
+  #live-search-results .live-result h3 {
+    margin: 0;
+    font-size: 1.08rem;
+    line-height: 1.45;
+  }
+
+  #live-search-results .live-result h3 a {
+    color: var(--text);
+    font-weight: 600;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+  }
+
+  #live-search-results .live-result-url {
+    display: block;
+    overflow-wrap: anywhere;
+    margin-top: 0.3rem;
+    color: var(--text-muted);
+    font: 0.78rem var(--base-fonts-mono);
+  }
+
+  #live-search-results .live-result-lines {
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.84rem;
+  }
+
+  #live-search-results .live-result-lines li + li {
+    margin-top: 0.25rem;
+  }
+
+  #live-search-results .live-result-lines a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  #live-search-results .live-result-more {
+    margin: 0.4rem 0 0 1.25rem;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    line-height: 1.3;
+  }
+
+  #live-search-results mark {
+    background: none;
+    color: inherit;
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 2px;
+  }
+</style>

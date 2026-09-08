@@ -1,0 +1,374 @@
+---
+// src/layouts/BlogPost.astro
+import type { MarkdownHeading } from "astro";
+import MainLayout from "./MainLayout.astro";
+import ShareButtons from "../components/ShareButtons.astro";
+import { blogPath } from "../utils/paths";
+import "../styles/post.css";
+
+const {
+  title,
+  date,
+  latest_edit_at,
+  headings = [],
+  description,
+  wordCount,
+  slug,
+  tags,
+} = Astro.props as {
+  title: string;
+  date?: Date;
+  latest_edit_at?: Date;
+  headings?: MarkdownHeading[];
+  description?: string;
+  wordCount?: number;
+  slug: string;
+  tags?: string[];
+};
+const trimmedDescription = description?.trim();
+const ogImage = slug ? blogPath(`/og/${slug}.png`) : undefined;
+const tocHeadings = headings.filter(
+  (heading) => heading.depth >= 2 && heading.depth <= 3,
+);
+const url = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<MainLayout
+  title={title}
+  description={trimmedDescription}
+  ogImage={ogImage}
+  ogType="article"
+>
+  <article class="prose" data-pagefind-body>
+    <h1>{title}</h1>
+    {trimmedDescription && <p class="post-description">{trimmedDescription}</p>}
+    <div class="post-meta" data-pagefind-ignore="index">
+      {
+        date && (
+          <time
+            datetime={date.toISOString()}
+            data-pagefind-meta={`date:${date.toLocaleDateString("ja-JP")}`}
+          >
+            {date.toLocaleDateString("ja-JP")}
+          </time>
+        )
+      }
+      {
+        latest_edit_at && (
+          <time datetime={latest_edit_at.toISOString()} class="last-modified">
+            <span class="time-arrow">⇒</span>
+            <span>{latest_edit_at.toLocaleDateString("ja-JP")}</span>
+          </time>
+        )
+      }
+      {
+        tags && tags.length > 0 && (
+          <div class="tags">
+            {tags.map((tag) => (
+              <span class="tag" data-pagefind-filter="tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+        )
+      }
+      <span class="raw-links" data-pagefind-ignore>
+        <a
+          href={blogPath(`/md/${slug}`)}
+          class="link--underline link--external"
+          target="_blank"
+          rel="noopener noreferrer">md</a
+        >
+        <a
+          href={blogPath(`/html/${slug}`)}
+          class="link--underline link--external"
+          target="_blank"
+          rel="noopener noreferrer">html</a
+        >
+      </span>
+    </div>
+    {
+      tocHeadings.length > 0 && (
+        <details class="toc" data-pagefind-ignore>
+          <summary>目次</summary>
+          <nav aria-label="Table of contents">
+            <ul>
+              {tocHeadings.map((heading, index) => (
+                <li
+                  class={`toc-depth-${heading.depth}`}
+                  style={`--toc-index:${index};`}
+                >
+                  <a href={`#${heading.slug}`}>{heading.text}</a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </details>
+      )
+    }
+    <slot />
+
+    <ShareButtons title={title} url={url} wordCount={wordCount} />
+  </article>
+
+  <script is:inline>
+    (() => {
+      const root = document.querySelector(".prose");
+      const references = root?.querySelectorAll("[data-footnote-ref]") ?? [];
+      if (references.length === 0) return;
+
+      const popup = document.createElement("aside");
+      popup.id = "footnote-popup";
+      popup.className = "footnote-popup";
+      popup.setAttribute("role", "note");
+      popup.hidden = true;
+      root.appendChild(popup);
+
+      let activeReference = null;
+      let closeTimer;
+
+      const positionPopup = (reference) => {
+        const gap = 10;
+        const viewportPadding = 12;
+        const referenceRect = reference.getBoundingClientRect();
+        const popupRect = popup.getBoundingClientRect();
+        const left = Math.min(
+          window.innerWidth - popupRect.width - viewportPadding,
+          Math.max(viewportPadding, referenceRect.left),
+        );
+        const top = referenceRect.bottom + gap;
+
+        popup.style.left = `${left}px`;
+        popup.style.top = `${top}px`;
+        popup.style.maxHeight = `${Math.max(
+          80,
+          window.innerHeight - top - viewportPadding,
+        )}px`;
+        popup.dataset.placement = "below";
+      };
+
+      const showPopup = (reference) => {
+        clearTimeout(closeTimer);
+        const href = reference.getAttribute("href");
+        if (!href?.startsWith("#")) return;
+
+        const definition = document.getElementById(
+          decodeURIComponent(href.slice(1)),
+        );
+        if (!definition) return;
+
+        const content = definition.cloneNode(true);
+        content.removeAttribute("id");
+        content
+          .querySelectorAll("[data-footnote-backref]")
+          .forEach((backref) => backref.remove());
+        popup.replaceChildren(...content.childNodes);
+        popup.hidden = false;
+        activeReference = reference;
+        reference.setAttribute("aria-describedby", popup.id);
+        positionPopup(reference);
+        requestAnimationFrame(() => popup.classList.add("is-visible"));
+      };
+
+      const hidePopup = () => {
+        closeTimer = window.setTimeout(() => {
+          popup.classList.remove("is-visible");
+          activeReference?.removeAttribute("aria-describedby");
+          activeReference = null;
+          window.setTimeout(() => {
+            if (!popup.classList.contains("is-visible")) popup.hidden = true;
+          }, 120);
+        }, 100);
+      };
+
+      for (const reference of references) {
+        reference.addEventListener("mouseenter", () => showPopup(reference));
+        reference.addEventListener("mouseleave", hidePopup);
+        reference.addEventListener("focus", () => showPopup(reference));
+        reference.addEventListener("blur", hidePopup);
+      }
+
+      popup.addEventListener("mouseenter", () => clearTimeout(closeTimer));
+      popup.addEventListener("mouseleave", hidePopup);
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (activeReference) positionPopup(activeReference);
+        },
+        { passive: true },
+      );
+      window.addEventListener("resize", () => {
+        if (activeReference) positionPopup(activeReference);
+      });
+    })();
+  </script>
+
+  <script is:inline>
+    const root = document.querySelector(".prose");
+    const codeBlocks = root?.querySelectorAll("pre > code") ?? [];
+
+    for (const code of codeBlocks) {
+      const pre = code.parentElement;
+      if (!pre) continue;
+
+      const title = pre.previousElementSibling;
+      const titleTarget =
+        title instanceof HTMLElement && title.classList.contains("code-title")
+          ? title
+          : null;
+      const container = titleTarget ?? pre;
+
+      if (container.querySelector(".code-copy-button")) continue;
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "code-copy-button";
+      button.setAttribute("aria-label", "Copy code");
+      button.textContent = "Copy";
+      container.appendChild(button);
+
+      let resetTimer;
+      const resetLabel = () => {
+        button.textContent = "Copy";
+        button.dataset.state = "";
+      };
+
+      button.addEventListener("click", async () => {
+        const text = code.textContent ?? "";
+        clearTimeout(resetTimer);
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+          } else {
+            const textarea = document.createElement("textarea");
+            textarea.value = text;
+            textarea.setAttribute("readonly", "");
+            textarea.style.position = "fixed";
+            textarea.style.top = "0";
+            textarea.style.left = "0";
+            textarea.style.opacity = "0";
+            textarea.style.pointerEvents = "none";
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            textarea.setSelectionRange(0, textarea.value.length);
+            // eslint-disable-next-line deprecation/deprecation -- fallback for non-secure contexts
+            const copied = document.execCommand("copy");
+            textarea.remove();
+            if (!copied) {
+              throw new Error("Copy failed");
+            }
+          }
+          button.textContent = "Copied";
+          button.dataset.state = "copied";
+        } catch {
+          button.textContent = "Failed";
+          button.dataset.state = "failed";
+        }
+
+        resetTimer = window.setTimeout(resetLabel, 2000);
+      });
+    }
+  </script>
+
+  <script is:inline>
+    (() => {
+      // ── lightbox ──────────────────────────────────────
+      const overlay = document.createElement("div");
+      overlay.id = "img-lightbox";
+      overlay.setAttribute("role", "dialog");
+      overlay.setAttribute("aria-modal", "true");
+      overlay.setAttribute("aria-label", "画像を拡大表示");
+      overlay.innerHTML =
+        '<button id="img-lightbox-prev" class="img-lightbox-nav" aria-label="前の画像">‹</button>' +
+        '<img id="img-lightbox-img" alt="" />' +
+        '<button id="img-lightbox-next" class="img-lightbox-nav" aria-label="次の画像">›</button>' +
+        '<span id="img-lightbox-count" aria-hidden="true"></span>';
+      document.body.appendChild(overlay);
+
+      const lbImg = overlay.querySelector("#img-lightbox-img");
+      const prevBtn = overlay.querySelector("#img-lightbox-prev");
+      const nextBtn = overlay.querySelector("#img-lightbox-next");
+      const countEl = overlay.querySelector("#img-lightbox-count");
+
+      const images = [...document.querySelectorAll(".prose img")].filter(
+        (img) => !img.alt?.includes("#no-lightbox"),
+      );
+      let index = -1;
+
+      const show = (i) => {
+        if (i < 0 || i >= images.length) return;
+        index = i;
+        lbImg.src = images[i].src;
+        lbImg.alt = images[i].alt;
+        const multi = images.length > 1;
+        prevBtn.hidden = !multi || i === 0;
+        nextBtn.hidden = !multi || i === images.length - 1;
+        countEl.hidden = !multi;
+        countEl.textContent = `${i + 1} / ${images.length}`;
+      };
+
+      const open = (i) => {
+        show(i);
+        overlay.classList.add("is-open");
+        document.documentElement.style.overflow = "hidden";
+        overlay.focus();
+      };
+
+      const close = () => {
+        overlay.classList.remove("is-open");
+        document.documentElement.style.overflow = "";
+        lbImg.src = "";
+      };
+
+      overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) close();
+      });
+      prevBtn.addEventListener("click", () => show(index - 1));
+      nextBtn.addEventListener("click", () => show(index + 1));
+
+      document.addEventListener("keydown", (e) => {
+        if (!overlay.classList.contains("is-open")) return;
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        if (e.key === "Escape") close();
+        else if (e.key === "ArrowLeft") show(index - 1);
+        else if (e.key === "ArrowRight") show(index + 1);
+      });
+
+      // Swipe left/right to navigate on touch devices.
+      let touchX = null;
+      let touchY = null;
+      overlay.addEventListener(
+        "touchstart",
+        (e) => {
+          if (e.touches.length !== 1) {
+            touchX = null;
+            return;
+          }
+          touchX = e.touches[0].clientX;
+          touchY = e.touches[0].clientY;
+        },
+        { passive: true },
+      );
+      overlay.addEventListener(
+        "touchend",
+        (e) => {
+          if (touchX === null) return;
+          const dx = e.changedTouches[0].clientX - touchX;
+          const dy = e.changedTouches[0].clientY - touchY;
+          touchX = null;
+          if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+            show(index + (dx < 0 ? 1 : -1));
+          }
+        },
+        { passive: true },
+      );
+
+      images.forEach((img, i) => {
+        img.style.cursor = "zoom-in";
+        img.addEventListener("click", () => open(i));
+      });
+    })();
+  </script>
+</MainLayout>

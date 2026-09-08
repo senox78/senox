@@ -1,0 +1,64 @@
+---
+// src/pages/404.astro
+import MainLayout from "../layouts/MainLayout.astro";
+import { blogPath } from "../utils/paths";
+---
+
+<MainLayout
+  title="404 Not Found - Compute on Snails"
+  description="Page not found"
+>
+  <div class="not-found">
+    <p class="code">404</p>
+    <h2>Page Not Found.</h2>
+    <p class="message">このURLの記事は失くしちゃったみたい。</p>
+    <!-- <p class="message">ごめんね</p> -->
+    <a href={blogPath()} class="home-link link--underline-accent">⇐ Home</a>
+    <img src={blogPath("/404.png")} alt="404 image" id="charactor" />
+  </div>
+</MainLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 1rem;
+    gap: 0.5rem;
+  }
+
+  #charactor {
+    width: 60%;
+  }
+
+  @media (max-width: 640px) {
+    #charactor {
+      width: 100%;
+    }
+  }
+
+  .code {
+    font-size: 5rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  h2 {
+    margin: 0.5rem 0 0;
+    font-size: 1.6rem;
+  }
+
+  .message {
+    color: var(--text-muted);
+    margin: 0.5rem 0 1.5rem;
+  }
+
+  /* 下線まわりはglobal.cssの.link--underline-accentを使用 */
+  .home-link {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+</style>

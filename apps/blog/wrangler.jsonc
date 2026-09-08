@@ -1,0 +1,5 @@
+{
+  // Cloudflare Pages config for the blog.
+  "name": "blog",
+  "pages_build_output_dir": "../../dist",
+}

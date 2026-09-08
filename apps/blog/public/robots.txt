@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /blog/
+
+Sitemap: https://senox.cc/blog/sitemap.xml
