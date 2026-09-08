@@ -140,7 +140,7 @@ x.comへアクセスした際に[hacker news](https://news.ycombinator.com/)に�
 
 ## blog
 
-このサイト。About meもblogの記事の1つの扱いです。(一応about.uliboooo.devからリダイレクト)
+このサイト。About meもblogの記事の1つの扱いです。
 
 [Github Repository](https://github.com/Uliboooo/blog)
 
