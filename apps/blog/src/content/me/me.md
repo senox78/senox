@@ -112,8 +112,9 @@ https://x.com/senox78/status/2084895400067313751
 <span style="
 font-family: 'Monaspace Radon', 'Annotation Mono', monospace;
 letter-spacing: 0.01em;
-">[seli.am2@proton.me](mailto:seli.am2@proton.me?subject=%E7%9B%B8%E4%BA%92%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)</span>
+">[senox78.am2@gmail.com](mailto:senox78.am2@gmail.com?subject=%E7%9B%B8%E4%BA%92%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6)</span>
 へご連絡ください。
 
 [![uliboooo-banner#download#small](./banners/uliboooo_b.webp)](https://raw.githubusercontent.com/Uliboooo/blog/main/apps/blog/src/content/me/banners/uliboooo_b.webp)
 [![keita_kawase_banner#no-deco](./banners/keita_kawase.png)](https://keitagame.github.io/)
+[![qian39_dev#no-deco](./banners/qial39.svg)](https://search3958.github.io?value=link1)
