@@ -1,5 +1,5 @@
 ---
-title: "About Me"
+title: "せの(senox78)"
 date: 2026-03-17
 latest_edit_at: 2026-09-08
 description: "senox78について"
