@@ -226,6 +226,12 @@
   }
 }
 
+/* 外部リンクのinline-flexを引用内では解除し、長いURLも幅内で折り返す */
+.prose blockquote a.link--underline {
+  display: inline;
+  overflow-wrap: anywhere;
+}
+
 /* 出典付きの引用(`#quote(attribution:, url:)[...]`) */
 .prose figure.quote {
   margin: 20px 0;
