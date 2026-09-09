@@ -11,7 +11,7 @@ published: true
 
 ---
 
-## [せの (senox78)](https://github.com/senox78)
+## About Me
 
 <a href="../seli-ni-tsuite" class="link--underline link--external" target="_blank" rel="noopener noreferrer">瀬梨(Seli)についてはこちら</a>
 
