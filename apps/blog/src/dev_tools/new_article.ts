@@ -5,10 +5,14 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import prompts from "prompts";
 
-const is_project_root = existsSync("./package.json");
+// Resolve paths from this script instead of the caller's working directory.
+// `./new` is also exposed at the monorepo root, so cwd may be either the
+// repository root or apps/blog.
+const project_root = path.resolve(import.meta.dir, "../..");
+const has_project_manifest = existsSync(path.join(project_root, "package.json"));
 
-if (!is_project_root) {
-  console.error("Run this command in project root");
+if (!has_project_manifest) {
+  console.error(`Could not locate the blog project at ${project_root}`);
 
   process.exit(1);
 }
@@ -144,7 +148,8 @@ const frontmatter = [
   "",
 ].join("\n");
 
-const article_path = `./src/content/${slug}/${slug}.md`;
+const article_path = path.join(project_root, "src/content", slug, `${slug}.md`);
+const display_path = path.relative(process.cwd(), article_path);
 const file = Bun.file(article_path);
 
 if (await file.exists()) {
@@ -156,7 +161,7 @@ try {
   await mkdir(path.dirname(article_path), { recursive: true });
   await Bun.write(article_path, frontmatter);
 } catch (e) {
-  console.error("failed write");
+  fail(`failed write: ${e instanceof Error ? e.message : String(e)}`);
 }
 
-console.log(`created at ${article_path}`);
+console.log(`created at ${display_path}`);

@@ -1,7 +1,7 @@
 ---
 title: "せの(senox78)"
 date: 2026-03-17
-latest_edit_at: 2026-09-08
+latest_edit_at: 2026-09-10
 description: "senox78について"
 tags: ["me"]
 published: true

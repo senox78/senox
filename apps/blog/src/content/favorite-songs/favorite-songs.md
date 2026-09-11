@@ -26,24 +26,32 @@ https://n0.com/s/b3q18wjfar5u
 
 ## 目抜き通り / 椎名林檎&トータス松本(Covered by 理原ひなり&ギルザレンⅢ世)
 
-理原ひなり&ギルザレンⅢ世のカバーはとても良い。
-
 https://youtu.be/LclHUBnQtSQ
 
 ## おとなの掟 / Doughnuts Hole(Covered by 樋口楓 理原ひなり ギルザレンⅢ世 渋谷ハジメ)
-
-好きなドラマ(カルテット)の主題歌であり、好きな人達のカバー。
 
 https://youtu.be/SwyOLK9qQXY
 
 ## レーテンシー / esoragoto
 
-歌詞, メロディー共に好き。唯一、この楽曲に限らないけど電話の呼び出しみたいな目の覚める効果音をあまり使わないで欲しい。とても曲に合っているのだけれど不安になるので。
-
 https://n0.com/a/jjbwbg7hm13i
 
 ## リードコントロール / なるみや
 
-歌詞が好き。
-
 https://n0.com/a/3vtfs6skjsnw
+
+## ドラドの悲劇 / 傘村トータ
+
+https://n0.com/s/vwkkdxpf5cvd
+
+## 劇薬中毒 / =LOVE
+
+https://n0.com/s/hpqb5dgcfp0w
+
+## カブトムシ / aiko
+
+https://n0.com/a/6v1hsjytt7i9
+
+## Étoile et toi / Clémentine
+
+https://n0.com/s/1vr3dts9j4sw
