@@ -13,7 +13,7 @@ published: true
 
 ## About Me
 
-<a href="../seli-ni-tsuite" class="link--underline link--external" target="_blank" rel="noopener noreferrer">瀬梨(Seli)についてはこちら</a>
+<a href="about-rei" class="link--underline link--external" target="_blank" rel="noopener noreferrer">Reiについてはこちら</a>
 
 ![my draw#small](./logo.png)
 
