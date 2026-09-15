@@ -6,7 +6,7 @@ tags: []
 published: true
 ---
 
-![face#small](./face.jpg)
+![face#small](../seli-ni-tsuite/face.jpg)
 
 senox78の自我。個人的な名義。
 
@@ -27,4 +27,3 @@ https://x.com/senox78/status/2095843377787072649
 ### 終末世界には先輩がいる
 
 https://x.com/senox78/status/2092239764305162358
-
