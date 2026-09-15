@@ -13,7 +13,7 @@ published: true
 
 ## About Me
 
-<a href="about-rei" class="link--underline link--external" target="_blank" rel="noopener noreferrer">Reiについてはこちら</a>
+<a href="../about-rei" class="link--underline link--external" target="_blank" rel="noopener noreferrer">Reiについてはこちら</a>
 
 ![my draw#small](./logo.png)
 
