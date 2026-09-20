@@ -25,6 +25,11 @@ const resp = await prompts([
   },
   {
     type: "text",
+    name: "slug",
+    message: "slug (leave empty to generate with Gemini)",
+  },
+  {
+    type: "text",
     name: "desc",
     message: "description of new article",
   },
@@ -55,9 +60,6 @@ const normalize_slug = (value: string) =>
     .replace(/\s+/g, "_")
     .replace(/[^\w-]/g, "");
 
-const has_japanese = (value: string) =>
-  /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}]/u.test(value);
-
 const fail = (message: string): never => {
   console.error(message);
   process.exit(1);
@@ -66,7 +68,7 @@ const fail = (message: string): never => {
 const generate_slug_from_gemini = async (title: string) => {
   const api_key = process.env.GEMINI_API_KEY;
   if (!api_key) {
-    fail("GEMINI_API_KEY is required to generate slug for Japanese titles.");
+    fail("GEMINI_API_KEY is required when the slug is left empty.");
   }
 
   const model = "gemini-3.5-flash-lite";
@@ -111,9 +113,10 @@ const generate_slug_from_gemini = async (title: string) => {
   return normalized;
 };
 
-const slug = has_japanese(print_title)
-  ? await generate_slug_from_gemini(print_title)
-  : normalize_slug(print_title);
+const input_slug = String(resp.slug ?? "").trim();
+const slug = input_slug
+  ? normalize_slug(input_slug)
+  : await generate_slug_from_gemini(print_title);
 
 if (!slug) {
   fail("failed to generate slug.");
