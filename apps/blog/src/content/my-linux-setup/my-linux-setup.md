@@ -98,11 +98,7 @@ hyprlandにはsub mapというものがあり、特定のモードによって�
 
 そこで私は`SUPER + R`でresizeモードに入り、`hjkl`でウィンドウをリサイズできるようにしています。
 
-<blockquote class="twitter-tweet">
-    <p lang="ja" dir="ltr"></p>
-    <a href="https://x.com/senox78/status/2071042133914755396?s=20"></a>
-</blockquote>
-<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+https://x.com/senox78/status/2071042133914755396
 
 ### rofiにいろいろ集約
 

@@ -8,7 +8,6 @@ import rehypeExternalLinks from "rehype-external-links";
 import remarkCodeTitle from "./plugins/remark-code-title.js";
 import remarkDirective from "remark-directive";
 import remarkDirectiveHandler from "./plugins/remark-directive-handler.js";
-import remarkMusicLab86Embed from "./plugins/remark-music-lab86-embed.js";
 import remarkTwitterEmbed from "./plugins/remark-twitter-embed.js";
 import remarkTypst from "./plugins/remark-typst.js";
 import rehypeFootnoteBackrefIcon from "./plugins/rehype-footnote-backref-icon.js";
@@ -19,7 +18,6 @@ export const remarkPlugins = [
   remarkCodeTitle,
   remarkDirective,
   remarkDirectiveHandler,
-  remarkMusicLab86Embed,
   remarkTwitterEmbed,
 ];
 

@@ -40,12 +40,11 @@ if (!articlePath.endsWith(".md") || !existsSync(articlePath)) {
 }
 
 const source = await Bun.file(articlePath).text();
-const frontmatterMatch = source.match(
-  /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/,
-);
-if (!frontmatterMatch) fail(`Missing frontmatter: ${articlePath}`);
+const frontmatterMatch =
+  source.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/) ??
+  fail(`Missing frontmatter: ${articlePath}`);
 
-const frontmatter = frontmatterMatch[1];
+const [frontmatterBlock, frontmatter] = frontmatterMatch;
 const readString = (name: string) => {
   const value = frontmatter.match(
     new RegExp(`^${name}:\\s*(?:"([^"]*)"|'([^']*)'|(.*?))\\s*$`, "m"),
@@ -58,7 +57,7 @@ if (!title) fail(`Missing title: ${articlePath}`);
 const slug = await generateSlugFromGemini({
   title,
   description: readString("description"),
-  content: source.slice(frontmatterMatch[0].length).trim(),
+  content: source.slice(frontmatterBlock.length).trim(),
 });
 
 const currentDirectory = path.dirname(articlePath);

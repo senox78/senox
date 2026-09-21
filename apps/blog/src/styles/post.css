@@ -232,6 +232,33 @@
   overflow-wrap: anywhere;
 }
 
+/* XのoEmbedをビルド時に本文入りHTMLへ変換した静的カード */
+.prose blockquote.x-embed {
+  box-sizing: border-box;
+  width: min(100%, 550px);
+  margin: 1.5rem auto;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--line-color);
+  border-radius: 12px;
+  background: var(--table-bg);
+  color: var(--text);
+  font-family: var(--base-fonts-sans);
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+
+.prose blockquote.x-embed p {
+  margin: 0 0 0.75rem;
+  font-size: 1em;
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+  white-space: pre-wrap;
+}
+
+.prose blockquote.x-embed--fallback {
+  text-align: center;
+}
+
 /* 出典付きの引用(`#quote(attribution:, url:)[...]`) */
 .prose figure.quote {
   margin: 20px 0;
@@ -402,7 +429,7 @@
   font-weight: 430;
 }
 
-.footnote-popup p+p {
+.footnote-popup p + p {
   margin-top: 0.55rem;
 }
 
@@ -552,7 +579,7 @@
 }
 
 .prose .image-row img:first-child:nth-last-child(2),
-.prose .image-row img:first-child:nth-last-child(2)~img {
+.prose .image-row img:first-child:nth-last-child(2) ~ img {
   flex: 1 1 0;
   min-width: 0;
   height: auto;
@@ -577,28 +604,28 @@
   scrollbar-color: var(--blockquote-border) transparent;
 }
 
-.prose .row--blocks>.row__item {
+.prose .row--blocks > .row__item {
   flex: 0 0 auto;
   margin-block: 0;
   max-width: min(100%, 24rem);
 }
 
-.prose .row--blocks>.row__item:only-child {
+.prose .row--blocks > .row__item:only-child {
   max-width: 100%;
 }
 
-.prose .row--blocks>.row__item:first-child:nth-last-child(2),
-.prose .row--blocks>.row__item:first-child:nth-last-child(2)~.row__item {
+.prose .row--blocks > .row__item:first-child:nth-last-child(2),
+.prose .row--blocks > .row__item:first-child:nth-last-child(2) ~ .row__item {
   flex: 1 1 0;
   min-width: 0;
   max-width: none;
 }
 
-.prose .row--blocks>.row__item> :first-child {
+.prose .row--blocks > .row__item > :first-child {
   margin-top: 0;
 }
 
-.prose .row--blocks>.row__item> :last-child {
+.prose .row--blocks > .row__item > :last-child {
   margin-bottom: 0;
 }
 
@@ -651,7 +678,7 @@
   gap: 0.5rem;
 }
 
-.prose .code-title+pre {
+.prose .code-title + pre {
   margin-top: 0;
   border-top: 1px solid #ffffff;
   border-top-left-radius: 0;

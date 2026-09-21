@@ -83,10 +83,7 @@ function formatDate(date: Date) {
 	return date.toLocaleDateString("ja-JP");
 }
 
-// Strip any <script> elements from the rendered body. The markdown pipeline can
-// emit scripts as part of an embed (e.g. the Twitter widget loader); those are
-// behaviour, not document content, so they are removed while the surrounding
-// markup (the tweet blockquote and its link) is kept. Escaped scripts shown
+// Strip any <script> elements from the rendered body. Escaped scripts shown
 // inside code blocks are `&lt;script&gt;` text and are left untouched.
 function stripScripts(html: string) {
 	return html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "");
