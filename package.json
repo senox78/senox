@@ -19,6 +19,7 @@
     "cf-dev:blog": "bun run --filter @senox/blog cf-dev",
     "astro:blog": "bun run --filter @senox/blog astro",
     "tags": "bun run --filter @senox/blog tags",
+    "slug": "bun run --filter @senox/blog slug",
     "tags:check": "bun run --filter @senox/blog tags:check",
     "prepare:git": "bun run --filter @senox/blog prepare:git"
   }
