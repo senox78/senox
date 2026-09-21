@@ -236,7 +236,7 @@
 .prose blockquote.x-embed {
   box-sizing: border-box;
   width: min(100%, 550px);
-  margin: 1.5rem auto;
+  margin: 1.5rem 0;
   padding: 1rem 1.15rem;
   border: 1px solid var(--line-color);
   border-radius: 12px;
