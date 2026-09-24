@@ -10,7 +10,7 @@ published: true
 
 senox78の自我。個人的な名義。
 
-<a href="../me" class="link--underline link--external" target="_blank" rel="noopener noreferrer">せの についてはこちら</a>
+<a href="../me" class="link--underline link--external" target="_blank" rel="noopener noreferrer">れい についてはこちら</a>
 
 https://x.com/senox78/status/2095843377787072649
 

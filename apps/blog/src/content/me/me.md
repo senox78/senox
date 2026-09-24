@@ -1,5 +1,5 @@
 ---
-title: "せの(senox78)"
+title: "れい(senox78)"
 date: 2026-03-17
 latest_edit_at: 2026-09-10
 description: "senox78について"
@@ -7,7 +7,7 @@ tags: ["me"]
 published: true
 ---
 
-色々あって名前をUliboooo -> せの(senox78)にしました。順次,各種SNS等を更新していくので半年ほど新旧入り乱れます。
+色々あって名前をUliboooo -> れい(senox78)にしました。順次,各種SNS等を更新していくので半年ほど新旧入り乱れます。
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "瀬梨(Seli)について"
+title: "Reiについて"
 date: 2026-06-25
 latest_edit_at: 2026-07-28
 description: "小説とか用の、Techじゃない創作の名義です"
@@ -9,9 +9,9 @@ published: true
 
 ![face#small](./face.jpg)
 
-創作物などに向けた名義。せのの中の人ともいう。百合好き。
+創作物などに向けた名義。れいの中の人ともいう。百合好き。
 
-<a href="../me" class="link--underline link--external" target="_blank" rel="noopener noreferrer">せの についてはこちら</a>
+<a href="../me" class="link--underline link--external" target="_blank" rel="noopener noreferrer">れい についてはこちら</a>
 
 https://x.com/senox78/status/2095843377787072649
 

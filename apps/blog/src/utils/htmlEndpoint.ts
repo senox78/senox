@@ -155,7 +155,7 @@ function renderHeader(frontmatter: Frontmatter) {
 const FOOTER = `<footer>
   <div class="footer-content">
     <div class="copy-right">
-      <p>&copy; 2026 せの(senox78). All rights reserved.</p>
+      <p>&copy; 2026 れい(senox78). All rights reserved.</p>
     </div>
     <div class="site-info">
       <p>

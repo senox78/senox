@@ -1,4 +1,4 @@
-## せの Blog
+## れい Blog
 
 `https://senox.cc/blog/` で公開する Astro application です。monorepo root からは `bun run dev` / `bun run build`、この directory からは従来どおり `bun run dev` / `bun run build` を実行できます。
 
